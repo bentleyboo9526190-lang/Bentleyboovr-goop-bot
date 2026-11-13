@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BentleyBooVR Goop Bot</title>
+<style>
+:root{color-scheme:dark;--bg:#090d12;--panel:#121a23;--line:#263544;--text:#eaf2f8;--muted:#91a4b5;--accent:#8be36b}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at top,#162535 0,#090d12 58%);color:var(--text);font:16px system-ui,sans-serif;display:grid;place-items:center;padding:24px}
+main{width:min(620px,100%);background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:28px;box-shadow:0 20px 70px #0008}
+h1{margin:0 0 8px;font-size:clamp(26px,5vw,38px)}.tag{color:var(--accent);font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:12px}.sub{color:var(--muted);line-height:1.5;margin:0 0 24px}
+label{display:block;font-weight:650;margin:0 0 9px}input{width:100%;background:#080d12;color:var(--text);border:1px solid #34485a;border-radius:12px;padding:15px;font:inherit;outline:none}input:focus{border-color:var(--accent);box-shadow:0 0 0 3px #8be36b22}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}button{border:0;border-radius:11px;padding:12px 18px;font:inherit;font-weight:700;cursor:pointer;background:var(--accent);color:#10200b}button.secondary{background:#263544;color:var(--text)}button:focus-visible{outline:3px solid white;outline-offset:2px}
+#status{min-height:24px;color:var(--accent);margin:14px 0 0;font-size:14px}.note{margin-top:24px;padding:14px;border:1px solid var(--line);border-radius:12px;color:var(--muted);font-size:13px;line-height:1.5}.note strong{color:var(--text)}
+footer{margin-top:18px;color:#718596;font-size:12px}
+</style>
+</head>
+<body>
+<main>
+  <div class="tag">BentleyBooVR project</div>
+  <h1>Goop Bot</h1>
+  <p class="sub">Private lobby code companion. Keep a room code handy and copy it when you're ready to join manually.</p>
+  <label for="roomCode">Private lobby code</label>
+  <input id="roomCode" type="text" maxlength="80" autocomplete="off" spellcheck="false" placeholder="Enter your private code">
+  <div class="actions">
+    <button id="copyBtn" type="button">Copy code</button>
+    <button id="clearBtn" class="secondary" type="button">Clear</button>
+  </div>
+  <p id="status" role="status" aria-live="polite"></p>
+  <div class="note"><strong>How this works:</strong> Enter your code, copy it, then use the game's normal private-room join flow. This page does not connect to game servers, log in, automate joining, or store your code.</div>
+  <footer>Local-only helper · No account credentials requested</footer>
+</main>
+<script>
+const code = document.getElementById('roomCode');
+const status = document.getElementById('status');
+document.getElementById('copyBtn').addEventListener('click', async () => {
+  const value = code.value.trim();
+  if (!value) { status.textContent = 'Enter a lobby code first.'; return; }
+  try {
+    await navigator.clipboard.writeText(value);
+    status.textContent = 'Code copied. Join through the game normally.';
+  } catch {
+    code.focus(); code.select();
+    status.textContent = 'Clipboard access was blocked. The code is selected so you can copy it manually.';
+  }
+});
+document.getElementById('clearBtn').addEventListener('click', () => {
+  code.value = ''; status.textContent = 'Code cleared.'; code.focus();
+});
+</script>
+</body>
+</html>
