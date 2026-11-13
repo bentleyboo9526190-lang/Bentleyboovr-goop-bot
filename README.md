@@ -24,7 +24,7 @@ To build it, use Android Studio with JDK 17 and Android SDK Platform 35 installe
 3. Build the `app` configuration to create a debug APK.
 4. Install and test the APK only on a device you own or are authorized to use, following Meta's current developer and app-installation requirements.
 
-This repository does not currently include a Gradle wrapper or a prebuilt APK.
+A GitHub Actions workflow at `.github/workflows/build-quest-apk.yml` builds a debug APK on pushes and pull requests to `main`, and can also be started manually from the repository's Actions tab. After a successful run, download the `bentleyboovr-goop-bot-debug-apk` artifact from that run. The artifact is a debug build for testing, not a Play Store release. This repository does not currently include a Gradle wrapper or a prebuilt APK.
 
 ## Scope and privacy
 
